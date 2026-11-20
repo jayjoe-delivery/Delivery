@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#101619" />
+  <title>Paketstress — Open City</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <canvas id="game" aria-label="Paketstress open city game"></canvas>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Paketstress home"><span class="brand-icon">P</span><span>PAKET<span class="brand-light">STRESS</span></span><i>OPEN CITY</i></a>
+      <div class="shift-pill"><span class="live-dot"></span><span id="districtLabel">ALTSTADT DISTRICT</span><b>•</b><span>SHIFT 01</span></div>
+      <div class="top-actions"><button class="icon-btn" id="soundBtn" aria-label="Toggle sound">♪</button><button class="icon-btn pause-btn" id="pauseBtn" aria-label="Pause game">Ⅱ</button></div>
+    </header>
+
+    <section class="hud-left" aria-label="Shift status">
+      <div class="stat-card time-card"><div class="eyebrow">LOCAL TIME <span class="live-dot"></span></div><div class="time-value" id="clock">08:00<span>AM</span></div><div class="shift-progress"><span id="shiftProgress"></span></div><div class="micro-row"><span>SHIFT END</span><b>17:30</b></div></div>
+      <div class="stat-card package-card"><div class="eyebrow">TODAY'S LOAD <span class="load-count" id="packageCount">08 / 08</span></div><div class="package-icons" id="packageIcons"></div><div class="package-caption" id="packageCaption">ALL BOXES ON BOARD</div></div>
+      <div class="stat-card meters-card"><div class="meter-head"><span>STRESS</span><b id="stressValue">18<span>%</span></b></div><div class="meter-track"><i id="stressBar" class="stress-fill"></i></div><div class="meter-head damage-head"><span>VAN CONDITION</span><b id="damageValue">100<span>%</span></b></div><div class="meter-track"><i id="damageBar" class="damage-fill"></i></div><div class="fine-row"><span>⚑ PARKING FINES</span><b id="fines">€0</b></div></div>
+    </section>
+
+    <aside class="mission-card" id="missionCard">
+      <div class="mission-top"><span class="mission-tag"><i></i> NEXT DELIVERY</span><span class="mission-index" id="missionIndex">01 — 08</span></div>
+      <h1 id="destinationName">Frau Krüger</h1><p class="address" id="destinationAddress">Bäckerstraße 14 · Altstadt</p>
+      <div class="mission-route"><div class="route-icon">↗</div><div><span class="route-distance" id="distance">0.4 KM</span><small>FOLLOW THE YELLOW ROUTE</small></div><div class="route-arrow">→</div></div>
+      <div class="mission-quote" id="missionQuote">“The doorbell only works if you press it three times.”</div>
+      <button class="deliver-btn" id="deliverBtn"><span class="deliver-icon">↵</span><span id="deliverText">DELIVER PACKAGE</span><kbd>E</kbd></button>
+      <div class="delivery-hint" id="deliveryHint">PARK NEAR THE MARKER TO DELIVER</div>
+    </aside>
+
+    <section class="minimap-card"><div class="mini-head"><span>STADTPLAN</span><span class="mini-live">● LIVE</span></div><canvas id="minimap" width="220" height="160"></canvas><div class="map-legend"><span><i class="legend-player"></i> YOU</span><span><i class="legend-target"></i> DROP</span></div></section>
+
+    <div class="radio-toast" id="toast"><span class="toast-icon">!</span><span id="toastText">Dispatch: your shift starts now. Try not to hit anything.</span></div>
+    <div class="interaction-prompt" id="interactionPrompt">PRESS <b>E</b> TO DELIVER</div>
+    <div class="controls-hint"><span class="keycap">W</span><span class="keycap">A</span><span class="keycap">S</span><span class="keycap">D</span><span class="control-label">DRIVE</span><span class="keycap space-key">SPACE</span><span class="control-label">HANDBRAKE</span><span class="keycap">E</span><span class="control-label">DELIVER</span></div>
+
+    <div class="mobile-controls" aria-label="Touch controls"><div class="dpad"><button data-control="up" aria-label="Accelerate">▲</button><div><button data-control="left" aria-label="Steer left">◀</button><button data-control="down" aria-label="Brake and reverse">▼</button><button data-control="right" aria-label="Steer right">▶</button></div></div><button class="mobile-deliver" id="mobileDeliver"><span>↵</span> DELIVER</button></div>
+
+    <div class="overlay" id="startOverlay"><div class="overlay-card intro-card"><div class="sunburst">✳</div><div class="overlay-kicker">MONDAY · 08:00 · THE CITY IS NOT READY</div><h2>ONE SHIFT.<br><em>EIGHT PACKAGES.</em><br>ZERO PARKING SPOTS.</h2><p>Clock in. Keep it together. Get those boxes to their very specific destinations.</p><div class="briefing-stats"><span><b>08</b> PARCELS</span><span><b>09:30</b> HOURS</span><span><b>€∞</b> PARKING FINES</span></div><button id="startBtn" class="primary-btn">START YOUR SHIFT <span>→</span></button><div class="overlay-foot">ARROWS / WASD TO DRIVE <span>·</span> E TO DELIVER</div></div></div>
+
+    <div class="overlay hidden" id="eventOverlay"><div class="overlay-card event-card"><div class="event-stamp" id="eventStamp">DELIVERY COMPLETE</div><div class="event-emoji" id="eventEmoji">📦</div><div class="overlay-kicker" id="eventKicker">PARCEL 01 OF 08</div><h2 id="eventTitle">A VERY QUICK HAND-OFF</h2><p id="eventBody">“You’re early. Can you come back in twenty minutes?”</p><div class="event-reward" id="eventReward">+ €28 delivery bonus <span>+ 12 STRESS</span></div><button id="continueBtn" class="primary-btn">BACK TO THE VAN <span>→</span></button></div></div>
+
+    <div class="overlay hidden" id="endOverlay"><div class="overlay-card end-card"><div class="overlay-kicker">SHIFT COMPLETE · 17:30</div><div class="end-icon">✓</div><h2 id="endTitle">YOU MADE IT HOME.</h2><p id="endCopy">Eight parcels delivered. Your van is mostly still a van.</p><div class="end-stats"><div><b id="endDelivered">08</b><span>DELIVERED</span></div><div><b id="endFines">€0</b><span>PARKING FINES</span></div><div><b id="endDamage">100%</b><span>VAN CONDITION</span></div></div><div class="end-rank" id="endRank">EMPLOYEE OF THE MONTH* <small>*only employee</small></div><button id="restartBtn" class="primary-btn">ANOTHER SHIFT? <span>→</span></button></div></div>
+
+    <div class="pause-overlay hidden" id="pauseOverlay"><div class="pause-box"><div class="overlay-kicker">TIME IS PAUSED</div><h2>TAKE A BREATHER.</h2><p>The traffic will still be awful when you get back.</p><button id="resumeBtn" class="primary-btn">BACK TO WORK <span>→</span></button></div></div>
+    <div class="vignette" aria-hidden="true"></div>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
